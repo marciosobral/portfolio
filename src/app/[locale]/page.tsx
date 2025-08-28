@@ -1,3 +1,4 @@
+import { HomePage } from '@/src/components/home';
 import { getDictionary } from '@/src/lib/dictionaries';
 import { Locale } from '@/src/lib/i18n';
 
@@ -9,10 +10,5 @@ export default async function Home({ params }: PageProps) {
   const { locale } = await params;
   const dict = await getDictionary(locale);
 
-  return (
-    <main>
-      <h1>{dict.home.title}</h1>
-      <h2>{dict.home.subtitle}</h2>
-    </main>
-  );
+  return <HomePage dict={dict} />;
 }
