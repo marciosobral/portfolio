@@ -1,31 +1,29 @@
 import type { Metadata } from 'next';
-import { generateMetadataByLocale } from '../layout';
+import { generateMetadataByLocale, montserrat } from '../layout';
+import { Locale, localeConfig } from '@/src/lib/i18n';
 
 interface LocaleLayoutProps {
   children: React.ReactNode;
-  params: { locale: 'en' | 'pt' };
+  params: Promise<{ locale: Locale }>;
 }
 
 export async function generateMetadata({
-  params
+  params,
 }: {
-  params: { locale: 'en' | 'pt' }
+  params: Promise<{ locale: Locale }>;
 }): Promise<Metadata> {
-  return generateMetadataByLocale(params.locale);
+  const { locale } = await params;
+
+  return generateMetadataByLocale(locale);
 }
 
-export default function LocaleLayout({
+export default async function LocaleLayout({
   children,
-  params: { locale }
+  params,
 }: LocaleLayoutProps) {
   return (
-    <html lang={locale}>
-      <head>
-        <link rel="alternate" hrefLang="en" href="/en" />
-        <link rel="alternate" hrefLang="pt" href="/pt" />
-        <link rel="alternate" hrefLang="x-default" href="/en" />
-      </head>
-      <body>
+    <html lang={(await params).locale ?? localeConfig.en.htmlLang}>
+      <body className={montserrat.className}>
         {children}
       </body>
     </html>

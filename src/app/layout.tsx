@@ -6,6 +6,8 @@ const montserrat = Montserrat({
   subsets: ["latin"],
 });
 
+export { montserrat };
+
 const metadataByLocale = {
   en: {
     title: {
@@ -51,25 +53,6 @@ export function generateMetadataByLocale(locale: 'en' | 'pt' = 'en'): Metadata {
       index: true,
       follow: true,
     },
-    // openGraph: {
-    //   ...meta.openGraph,
-    //   siteName: 'Márcio Sobral Portfolio',
-    //   images: [
-    //     {
-    //       url: '/images/og-image.jpg',
-    //       width: 1200,
-    //       height: 630,
-    //       alt: meta.openGraph.title,
-    //     },
-    //   ],
-    // },
-    // twitter: {
-    //   card: 'summary_large_image',
-    //   title: meta.openGraph.title,
-    //   description: meta.openGraph.description,
-    //   images: ['/images/og-image.jpg'],
-    //   creator: '@',
-    // },
     alternates: {
       canonical: '/',
       languages: {
@@ -84,14 +67,8 @@ export const metadata: Metadata = generateMetadataByLocale('en');
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
-  return (
-    <html lang="en">
-      <body className={montserrat.className}>
-        {children}
-      </body>
-    </html>
-  );
+}) {
+  return children;
 }
