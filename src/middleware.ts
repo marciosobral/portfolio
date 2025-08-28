@@ -1,19 +1,48 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { defaultLocale, locales } from './lib/i18n';
+import { defaultLocale, Locale, locales } from './lib/i18n';
+import { isMaintenanceActive } from './lib/maintenance';
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  const pathnameHasLocale = locales.some(
-    (locale) => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`
-  );
+  const { locale, hasLocale, pathWithoutLocale } = parseLocaleFromPath(pathname);
 
-  if (pathnameHasLocale) return;
+  if (!hasLocale) {
+    const detectedLocale = getLocale(request);
+    request.nextUrl.pathname = `/${detectedLocale}${pathname}`;
+    return NextResponse.redirect(request.nextUrl);
+  }
 
-  const locale = getLocale(request);
+  if (isMaintenanceActive()) {
+    if (!pathWithoutLocale.startsWith('/maintenance')) {
+      return NextResponse.redirect(new URL(`/${locale}/maintenance`, request.url));
+    }
+  } else {
+    if (pathWithoutLocale.startsWith('/maintenance')) {
+      return NextResponse.redirect(new URL(`/${locale}`, request.url));
+    }
+  }
 
-  request.nextUrl.pathname = `/${locale}${pathname}`;
-  return NextResponse.redirect(request.nextUrl);
+  return NextResponse.next();
+}
+
+function parseLocaleFromPath(pathname: string) {
+  const segments = pathname.split('/');
+  const firstSegment = segments[1];
+
+  if (locales.includes(firstSegment as Locale)) {
+    return {
+      locale: firstSegment as Locale,
+      hasLocale: true,
+      pathWithoutLocale: '/' + segments.slice(2).join('/')
+    };
+  }
+
+  return {
+    locale: defaultLocale,
+    hasLocale: false,
+    pathWithoutLocale: pathname
+  };
 }
 
 function getLocale(request: NextRequest): string {
