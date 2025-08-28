@@ -1,0 +1,20 @@
+{
+  "navigation": {
+    "home": "Home",
+    "about": "About me",
+    "technologies": "Technologies",
+    "experience": "Experience",
+    "projects": "Projects",
+    "contact": "Contact"
+  },
+  "maintenance": {
+    "title": "Oops! Page Under Maintenance",
+    "subtitle": "This page is currently being updated. Please check back later.",
+    "description": "I'm working hard to bring you new content. Stay tuned!"
+  },
+  "home": {
+    "title": "Márcio Sobral - Portfolio",
+    "subtitle": "Full Stack Developer specialized in modern web technologies. Experienced in React, Next.js, Node.js, and TypeScript. Creating innovative digital solutions.",
+    "description": "Full Stack Developer specialized in modern web technologies. Experienced in React, Next.js, Node.js, and TypeScript. Creating innovative digital solutions."
+  }
+}
