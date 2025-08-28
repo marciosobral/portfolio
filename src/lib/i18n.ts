@@ -22,3 +22,7 @@ export const localeConfig = {
     openGraphLocale: 'pt_BR',
   },
 } as const;
+
+export function validateLocale(locale: string): Locale {
+  return locales.includes(locale as Locale) ? (locale as Locale) : defaultLocale;
+}
