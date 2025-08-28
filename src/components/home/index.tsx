@@ -1,4 +1,4 @@
-import { Dictionary } from "@/src/lib/dictionaries";
+import { Dictionary } from '@/src/lib/dictionaries';
 
 interface HomePageProps {
   dict: Dictionary;

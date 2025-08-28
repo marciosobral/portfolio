@@ -8,9 +8,17 @@ export function middleware(request: NextRequest) {
   const { locale, hasLocale, pathWithoutLocale } = parseLocaleFromPath(pathname);
 
   if (!hasLocale) {
-    const detectedLocale = getLocale(request);
-    request.nextUrl.pathname = `/${detectedLocale}${pathname}`;
-    return NextResponse.redirect(request.nextUrl);
+    if (pathname === '/pt') {
+      return NextResponse.redirect(new URL('/pt/', request.url));
+    }
+    
+    request.nextUrl.pathname = `/${defaultLocale}${pathname}`;
+    
+    if (isMaintenanceActive() && !pathname.startsWith('/maintenance')) {
+      return NextResponse.redirect(new URL(`/${defaultLocale}/maintenance`, request.url));
+    }
+    
+    return NextResponse.rewrite(request.nextUrl);
   }
 
   if (isMaintenanceActive()) {
@@ -43,24 +51,6 @@ function parseLocaleFromPath(pathname: string) {
     hasLocale: false,
     pathWithoutLocale: pathname
   };
-}
-
-function getLocale(request: NextRequest): string {
-  const cookieLocale = request.cookies.get('locale')?.value;
-  if (cookieLocale && locales.includes(cookieLocale as any)) {
-    return cookieLocale;
-  }
-
-  const acceptLanguage = request.headers.get('Accept-Language');
-  if (acceptLanguage) {
-    for (const locale of locales) {
-      if (acceptLanguage.includes(locale)) {
-        return locale;
-      }
-    }
-  }
-
-  return defaultLocale;
 }
 
 export const config = {

@@ -1,6 +1,6 @@
-import { MaintenancePage } from "@/src/components/maintenance";
-import { getDictionary } from "@/src/lib/dictionaries";
-import { Locale } from "@/src/lib/i18n";
+import { MaintenancePage } from '@/src/components/maintenance';
+import { getDictionary } from '@/src/lib/dictionaries';
+import { Locale } from '@/src/lib/i18n';
 
 interface MaintenancePageProps {
   params: Promise<{ locale: Locale }>;

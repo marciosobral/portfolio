@@ -1,5 +1,6 @@
-import { Dictionary } from "@/src/lib/dictionaries";
-import { Locale } from "@/src/lib/i18n";
+import { Dictionary } from '@/src/lib/dictionaries';
+import { Locale } from '@/src/lib/i18n';
+import { LanguageSwitcher } from '../ui/LanguageSwitcher';
 
 interface MaintenancePageProps {
   dict: Dictionary;
@@ -11,6 +12,11 @@ export function MaintenancePage({ dict, locale }: MaintenancePageProps) {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-900 via-purple-900 to-indigo-900 flex items-center justify-center px-4">
       <div className="max-w-2xl mx-auto text-center">
+
+        {/* Language Switcher */}
+        <div className="mb-8 flex justify-center">
+          <LanguageSwitcher currentLocale={locale} />
+        </div>
 
         {/* Main Content */}
         <div className="bg-white/10 backdrop-blur-md rounded-2xl p-8 border border-white/20 shadow-2xl">
