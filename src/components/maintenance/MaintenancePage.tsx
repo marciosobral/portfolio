@@ -43,9 +43,7 @@ export function MaintenancePage({ dict, locale }: MaintenancePageProps) {
           {/* Contact Info */}
           <div className="mb-6">
             <p className="text-sm text-gray-300 mb-4">
-              {locale === 'en'
-                ? 'Need urgent assistance? Contact me at:'
-                : 'Precisa de assistência urgente? Entre em contato:'}
+              {dict.maintenance.contact}
             </p>
             <div className="flex justify-center space-x-6">
               <a

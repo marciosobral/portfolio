@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter, usePathname } from 'next/navigation';
-import { Locale } from '@/src/lib/i18n';
+import { Locale, localeConfig } from '@/src/lib/i18n';
 
 interface LanguageSwitcherProps {
   currentLocale: Locale;
@@ -24,24 +24,18 @@ export function LanguageSwitcher({ currentLocale }: LanguageSwitcherProps) {
 
   return (
     <div className="inline-flex rounded-lg bg-white/10 backdrop-blur-sm border border-white/20 p-1">
-      <button
-        onClick={() => switchToLanguage('en')}
-        className={`px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 cursor-pointer ${currentLocale === 'en'
+      {Object.entries(localeConfig).map((locale, index) => (
+        <button
+          key={`lsb-${locale[0]}`}
+          onClick={() => switchToLanguage(locale[0] as Locale)}
+          className={`px-4 py-2 rounded-md text-2xl font-medium transition-all duration-200 cursor-pointer ${currentLocale === locale[0]
             ? 'bg-white text-gray-900 shadow-sm'
             : 'text-white hover:bg-white/10'
-          }`}
-      >
-        EN
-      </button>
-      <button
-        onClick={() => switchToLanguage('pt')}
-        className={`px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 cursor-pointer ${currentLocale === 'pt'
-            ? 'bg-white text-gray-900 shadow-sm'
-            : 'text-white hover:bg-white/10'
-          }`}
-      >
-        PT
-      </button>
+            }`}
+        >
+          {locale[1].flag}
+        </button>
+      ))}
     </div>
   );
 }

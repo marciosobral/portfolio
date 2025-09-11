@@ -1,4 +1,4 @@
-import { MaintenancePage } from '@/src/components/maintenance';
+import { MaintenancePage } from '@/src/components/maintenance/MaintenancePage';
 import { getDictionary } from '@/src/lib/dictionaries';
 import { Locale } from '@/src/lib/i18n';
 
