@@ -10,7 +10,8 @@
   "maintenance": {
     "title": "Oops! Page Under Maintenance",
     "subtitle": "This page is currently being updated. Please check back later.",
-    "description": "I'm working hard to bring you new content. Stay tuned!"
+    "description": "I'm working hard to bring you updates. Stay tuned!",
+    "contact": "Need assistance? Contact me at:"
   },
   "home": {
     "title": "Márcio Sobral - Portfolio",

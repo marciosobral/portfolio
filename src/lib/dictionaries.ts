@@ -22,6 +22,7 @@ export type Dictionary = {
     title: string;
     subtitle: string;
     description: string;
+    contact: string;
   };
   home: {
     title: string;
