@@ -17,5 +17,10 @@
     "title": "Márcio Sobral - Portfolio",
     "subtitle": "Full Stack Developer specialized in modern web technologies. Experienced in React, Next.js, Node.js, and TypeScript. Creating innovative digital solutions.",
     "description": "Full Stack Developer specialized in modern web technologies. Experienced in React, Next.js, Node.js, and TypeScript. Creating innovative digital solutions."
+  },
+  "layout": {
+    "footer": {
+      "rights": "All rights reserved."
+    }
   }
 }

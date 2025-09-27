@@ -10,5 +10,5 @@ export default async function Maintenance({ params }: MaintenancePageProps) {
   const { locale } = await params;
   const dict = await getDictionary(locale);
 
-  return <MaintenancePage dict={dict} locale={locale} />;
+  return <MaintenancePage dict={dict} />;
 }
