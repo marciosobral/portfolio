@@ -11,13 +11,13 @@ export function middleware(request: NextRequest) {
     if (pathname === '/pt') {
       return NextResponse.redirect(new URL('/pt/', request.url));
     }
-    
+
     request.nextUrl.pathname = `/${defaultLocale}${pathname}`;
-    
+
     if (isMaintenanceActive() && !pathname.startsWith('/maintenance')) {
       return NextResponse.redirect(new URL(`/${defaultLocale}/maintenance`, request.url));
     }
-    
+
     return NextResponse.rewrite(request.nextUrl);
   }
 

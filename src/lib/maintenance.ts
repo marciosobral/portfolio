@@ -14,12 +14,12 @@ export function getMaintenanceConfig(): MaintenanceConfig {
 
 export function isMaintenanceActive(): boolean {
   const config = getMaintenanceConfig();
-  
+
   if (!config.isEnabled) return false;
-  
+
   // if (config.endTime) {
   //   return new Date() < config.endTime;
   // }
-  
+
   return true;
 }
