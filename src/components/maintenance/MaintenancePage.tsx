@@ -4,10 +4,9 @@ import { LanguageSwitcher } from '../ui/LanguageSwitcher';
 
 interface MaintenancePageProps {
   dict: Dictionary;
-  locale: Locale;
 }
 
-export function MaintenancePage({ dict, locale }: MaintenancePageProps) {
+export function MaintenancePage({ dict }: MaintenancePageProps) {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-900 via-purple-900 to-indigo-900 flex items-center justify-center px-4">
@@ -15,7 +14,7 @@ export function MaintenancePage({ dict, locale }: MaintenancePageProps) {
 
         {/* Language Switcher */}
         <div className="mb-8 flex justify-center">
-          <LanguageSwitcher currentLocale={locale} />
+          <LanguageSwitcher />
         </div>
 
         {/* Main Content */}
@@ -43,9 +42,7 @@ export function MaintenancePage({ dict, locale }: MaintenancePageProps) {
           {/* Contact Info */}
           <div className="mb-6">
             <p className="text-sm text-gray-300 mb-4">
-              {locale === 'en'
-                ? 'Need urgent assistance? Contact me at:'
-                : 'Precisa de assistência urgente? Entre em contato:'}
+              {dict.maintenance.contact}
             </p>
             <div className="flex justify-center space-x-6">
               <a
@@ -77,7 +74,7 @@ export function MaintenancePage({ dict, locale }: MaintenancePageProps) {
         {/* Footer */}
         <div className="mt-8 text-center">
           <p className="text-sm text-gray-400">
-            © 2025 Márcio Sobral • {locale === 'en' ? 'All rights reserved' : 'Todos os direitos reservados'}
+            © 2025 Márcio Sobral • {dict.layout.footer.rights}
           </p>
         </div>
 

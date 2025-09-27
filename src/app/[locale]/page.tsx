@@ -1,4 +1,4 @@
-import { HomePage } from '@/src/components/home';
+import { HomePage } from '@/src/components/home/HomePage';
 import { getDictionary } from '@/src/lib/dictionaries';
 import { Locale } from '@/src/lib/i18n';
 

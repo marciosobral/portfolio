@@ -69,10 +69,12 @@ pnpm dev
 To run this project, configure the following environment variables to your .env file
 
 ```env
-SMTP_USER=semder@email.com
+SMTP_USER=sender@email.com
 SMTP_PASS=password
 EMAIL_TO=recipient@email.com
 MAINTENANCE=false
+DOMAIN=https://your-domain.com
+NEXT_PUBLIC_DEFAULT_LANGUAGE=en
 ```
 
 ## Deployment

@@ -1,44 +1,71 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { defaultLocale, Locale, locales } from './lib/i18n';
+import { getAvailableLocales, getDefaultLocale, Locale } from './lib/i18n';
 import { isMaintenanceActive } from './lib/maintenance';
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
-
   const { locale, hasLocale, pathWithoutLocale } = parseLocaleFromPath(pathname);
 
+  const defaultLocale = getDefaultLocale();
+  const maintenanceActive = isMaintenanceActive();
+
+  const isDefaultLocale = locale === defaultLocale;
+
   if (!hasLocale) {
-    if (pathname === '/pt') {
-      return NextResponse.redirect(new URL('/pt/', request.url));
+    if (pathname === `/${defaultLocale}`) {
+      return NextResponse.redirect(new URL(`/${defaultLocale}/`, request.url));
     }
-    
+
+    if (maintenanceActive) {
+      if (!pathname.startsWith('/maintenance') || pathname !== '/maintenance') {
+        return NextResponse.redirect(new URL('/maintenance', request.url));
+      }
+    }
+
+    if (!maintenanceActive) {
+      if (pathWithoutLocale.startsWith('/maintenance')) {
+        return NextResponse.redirect(new URL('/', request.url));
+      }
+    }
+
     request.nextUrl.pathname = `/${defaultLocale}${pathname}`;
-    
-    if (isMaintenanceActive() && !pathname.startsWith('/maintenance')) {
-      return NextResponse.redirect(new URL(`/${defaultLocale}/maintenance`, request.url));
-    }
-    
     return NextResponse.rewrite(request.nextUrl);
   }
 
-  if (isMaintenanceActive()) {
-    if (!pathWithoutLocale.startsWith('/maintenance')) {
+  if (maintenanceActive) {
+    if (
+      (!pathWithoutLocale.startsWith('/maintenance')
+        || (!isDefaultLocale && pathname !== `${locale}/maintenance`)
+      ) && pathname !== `/${locale}/maintenance`
+    ) {
       return NextResponse.redirect(new URL(`/${locale}/maintenance`, request.url));
     }
-  } else {
+  }
+
+  if (!maintenanceActive) {
     if (pathWithoutLocale.startsWith('/maintenance')) {
+      if (isDefaultLocale) {
+        return NextResponse.redirect(new URL('/', request.url));
+      }
       return NextResponse.redirect(new URL(`/${locale}`, request.url));
     }
+  }
+
+  if (isDefaultLocale && pathWithoutLocale !== '/') {
+    return NextResponse.redirect(new URL(pathWithoutLocale, request.url));
   }
 
   return NextResponse.next();
 }
 
 function parseLocaleFromPath(pathname: string) {
+  const availableLocales = getAvailableLocales();
+  const defaultLocale = getDefaultLocale();
+
   const segments = pathname.split('/');
   const firstSegment = segments[1];
 
-  if (locales.includes(firstSegment as Locale)) {
+  if (availableLocales.includes(firstSegment as Locale)) {
     return {
       locale: firstSegment as Locale,
       hasLocale: true,
@@ -54,5 +81,5 @@ function parseLocaleFromPath(pathname: string) {
 }
 
 export const config = {
-  matcher: ['/((?!api|_next/static|_next/image|favicon.ico).*)']
+  matcher: ['/((?!api|_next/static|_next/image|favicon.ico|robots.txt|sitemap.xml).*)'],
 };
