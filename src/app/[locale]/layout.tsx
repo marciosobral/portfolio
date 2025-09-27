@@ -1,11 +1,18 @@
 import type { Metadata } from 'next';
-import { generateMetadataByLocale, montserrat } from '../layout';
+import { Montserrat } from 'next/font/google';
 import { localeConfig, validateLocale } from '@/src/lib/i18n';
+import { generateBaseMetadata } from '@/src/config/metadata';
 
 interface LocaleLayoutProps {
   children: React.ReactNode;
   params: Promise<{ locale: string }>;
 }
+
+const montserrat = Montserrat({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-montserrat',
+});
 
 export async function generateMetadata({
   params,
@@ -15,7 +22,7 @@ export async function generateMetadata({
   const { locale } = await params;
   const validLocale = validateLocale(locale);
 
-  return generateMetadataByLocale(validLocale);
+  return generateBaseMetadata(validLocale);
 }
 
 export default async function LocaleLayout({
@@ -24,10 +31,15 @@ export default async function LocaleLayout({
 }: LocaleLayoutProps) {
   const { locale } = await params;
   const validLocale = validateLocale(locale);
+  const localeInfo = localeConfig[validLocale];
 
   return (
-    <html lang={localeConfig[validLocale].htmlLang}>
-      <body className={montserrat.className}>
+    <html
+      lang={localeInfo.htmlLang}
+      dir={localeInfo.direction}
+      className={montserrat.variable}
+    >
+      <body className={`font-sans ${montserrat.className}`}>
         {children}
       </body>
     </html>
