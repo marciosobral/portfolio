@@ -36,7 +36,7 @@ const dictionaries = Object.fromEntries(
 
 export const getDictionary = async (locale: Locale): Promise<Dictionary> => {
   try {
-    if (!locale || !(locale in dictionaries)) {
+    if (!(locale in dictionaries)) {
       return await dictionaries.en();
     }
 
